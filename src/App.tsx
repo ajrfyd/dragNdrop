@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Todo from './components/Todo/Todo';
+import DropArea from './components/DropZone/DropArea';
 
-function App() {
+type TodoType = {
+  id: number;
+  text: string;
+}
+
+const dropArea = [
+  { title: 'Not Started', },
+  { title: 'In Progress', },
+  { title: 'Completed' }
+]
+
+const App = () => {
+  const [todos, setTodos] = useState<TodoType[]>([]);
+
   return (
     <Container >
       <TitleContainer>
@@ -11,20 +26,22 @@ function App() {
         <StatusContainer>
           <h1>No Status</h1>
           <Btn>Add Todo</Btn>
-          <Todo draggable>
-            <span>Todo</span>
-            <span>x</span>
-          </Todo>
+          <Todo todo='Halil' id='1'/>
+          <Todo todo='Halil2'id='2'/>
+          <Todo todo='Halil3'id='3'/>
         </StatusContainer>
-        <StatusContainer>
+        {/* <StatusContainer onDrop={onDrop} onDragOver={dropOver}>
           <h1>Not Started</h1>
         </StatusContainer>
-        <StatusContainer>
+        <StatusContainer id='ip'>
           <h1>In Progress</h1>
         </StatusContainer>
-        <StatusContainer>
+        <StatusContainer id='cp'>
           <h1>Completed</h1>
-        </StatusContainer>
+        </StatusContainer> */}
+        {
+          dropArea.map(zone => <DropArea title={zone.title} key={zone.title} />)
+        }
       </TodoContainer>
     </Container>
   );
@@ -59,6 +76,7 @@ const StatusContainer = styled.div`
   border-radius: 10px;
   padding: 50px 1rem;
   text-align: center;
+  overflow: auto;
 
   &:nth-child(even) {
     background-color: #ddd;
@@ -80,7 +98,7 @@ const StatusContainer = styled.div`
 
 const Btn = styled.button`
   margin: .3rem 0;
-  width: 70%;
+  width: 80%;
   outline: none;
   border: none;
   background-color: pink;
@@ -90,23 +108,12 @@ const Btn = styled.button`
   margin-bottom: 1rem;
   font-weight: bold;
   color: #6200ee;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .6);
 
   &:hover {
     background-color: #e77688;
   }
   &:active {
-    transform: scale(1.1);
-  }
-`
-
-const Todo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: .3rem .8rem;
-  border-radius: 2px;
-  box-shadow: 1px 2px 5px rgba(0, 0, 0, .5);
-
-  &:hover {
     transform: scale(1.1);
   }
 `
